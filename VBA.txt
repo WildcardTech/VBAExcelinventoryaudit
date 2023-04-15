@@ -1,0 +1,50 @@
+Sub UpdateLastScannedDate()
+
+    Dim Barcode As String
+
+    Dim LastScannedDate As Range
+
+    
+
+    ' Loop until user cancels or enters empty barcode
+
+    Do
+
+        ' Get the barcode data from the hand scanner
+
+        Barcode = InputBox("Enter Barcode (or press Cancel to exit):")
+
+        
+
+        ' Exit the loop if user cancels or enters empty barcode
+
+        If Barcode = "" Then Exit Do
+
+        
+
+        ' Find the corresponding cell in column A
+
+        On Error Resume Next
+
+        Set LastScannedDate = Columns("A:A").Find(What:=Barcode, LookIn:=xlValues, LookAt:=xlWhole)
+
+        On Error GoTo 0
+
+        
+
+        ' If barcode is found, insert the current date in the corresponding cell in column B
+
+        If Not LastScannedDate Is Nothing Then
+
+            LastScannedDate.Offset(0, 1).Value = Date
+
+        Else
+
+            MsgBox "Barcode not found!"
+
+        End If
+
+    Loop
+
+End Sub
+
